@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KSUdata — учебные материалы КГУ</title>
+<meta name="description" content="Обозреватель репозитория KSUdata: программы дисциплин, аннотации, расписания и материалы по направлениям подготовки КГУ с предпросмотром файлов.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#e9edf3">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23e9edf3'/%3E%3Ctext x='32' y='43' font-family='Arial,sans-serif' font-size='32' font-weight='800' text-anchor='middle' fill='%234f6bf2'%3EK%3C/text%3E%3C/svg%3E">
+<style>
+/* ---------- тема: мягкий неоморфизм ---------- */
+:root{
+  --bg:#e9edf3;--text:#2a3142;--muted:#687188;--faint:#9aa3b7;
+  --accent:#4f6bf2;--accent-2:#3b57d9;
+  --ok:#2f9e6b;--warn:#d9892c;--danger:#dd5a4a;
+  --sd:rgba(163,177,198,.62);--sl:rgba(255,255,255,.95);
+  --r:18px;--r-sm:13px;--r-xs:9px;
+  --raise:7px 7px 14px var(--sd),-7px -7px 14px var(--sl);
+  --raise-sm:4px 4px 9px var(--sd),-4px -4px 9px var(--sl);
+  --raise-xs:2px 2px 5px var(--sd),-2px -2px 5px var(--sl);
+  --inset:inset 4px 4px 8px var(--sd),inset -4px -4px 8px var(--sl);
+  --inset-sm:inset 2px 2px 5px var(--sd),inset -2px -2px 5px var(--sl);
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --t:.18s ease;
+}
+[data-theme="dark"]{
+  --bg:#272b33;--text:#e6e9f0;--muted:#9ea7ba;--faint:#6d7689;
+  --accent:#7f95ff;--accent-2:#5f78f0;
+  --sd:rgba(0,0,0,.55);--sl:rgba(255,255,255,.055);
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;min-height:100vh;display:flex;flex-direction:column;font:15px/1.5 var(--font);color:var(--text);background:var(--bg)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+h1,h2,h3,h4{margin:0;line-height:1.25;letter-spacing:-.01em}
+p{margin:0}
+svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+svg.i.fill{fill:currentColor;stroke:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.muted{color:var(--muted)}.sm{font-size:13px}.hidden{display:none!important}
+mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;border-radius:3px;padding:0 1px}
+
+/* ---------- шапка ---------- */
+.top{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:14px;padding:14px clamp(14px,3vw,28px);background:var(--bg);box-shadow:0 12px 18px -16px var(--sd)}
+.brand{display:flex;align-items:center;gap:12px;flex:none}
+.brand-mark{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;box-shadow:var(--raise-sm);font-weight:800;font-size:20px;color:var(--accent)}
+.brand-text{display:flex;flex-direction:column;line-height:1.15}
+.brand-text b{font-size:17px}
+.brand-text small{font-size:12px;color:var(--muted)}
+.search{flex:1;max-width:640px;display:flex;align-items:center;gap:10px;height:46px;padding:0 10px 0 16px;border-radius:999px;box-shadow:var(--inset);color:var(--muted)}
+.search:focus-within{color:var(--text)}
+.search input{flex:1;min-width:0;height:100%;border:0;background:none;color:var(--text);font:inherit;outline:0}
+.search input::placeholder{color:var(--faint)}
+.search input::-webkit-search-cancel-button{-webkit-appearance:none}
+.search kbd{font:600 11px/1 var(--mono);padding:5px 7px;border-radius:7px;box-shadow:var(--raise-xs);color:var(--muted)}
+.search .clear{display:none;width:30px;height:30px;border-radius:50%;place-items:center;color:var(--muted)}
+.search.has .clear{display:grid}.search.has kbd{display:none}
+.actions{margin-left:auto;display:flex;align-items:center;gap:10px;flex:none}
+@media (max-width:760px){.top{flex-wrap:wrap}.search{order:3;flex-basis:100%;max-width:none}.brand-text small{display:none}.actions .btn.accent span{display:none}.actions .btn.accent{width:42px;padding:0;justify-content:center}}
+
+/* ---------- кнопки ---------- */
+.btn{height:42px;padding:0 16px;border-radius:999px;background:var(--bg);box-shadow:var(--raise-sm);display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;white-space:nowrap;color:var(--text);transition:box-shadow var(--t),transform var(--t),color var(--t)}
+.btn:hover{box-shadow:var(--raise);transform:translateY(-1px)}
+.btn:active,.btn.on{box-shadow:var(--inset-sm);transform:none}
+.btn.on{color:var(--accent)}
+.btn.accent{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;box-shadow:var(--raise-sm),0 10px 18px -10px var(--accent)}
+.btn.accent:active{box-shadow:var(--inset-sm)}
+.icon-btn{width:42px;padding:0;justify-content:center}
+.btn.sm{height:36px;font-size:13px;padding:0 13px}.icon-btn.sm{width:36px;padding:0}
+.btn.sm .i{width:18px;height:18px}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.chip{height:32px;padding:0 13px;border-radius:999px;box-shadow:var(--raise-xs);font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:6px;color:var(--muted);transition:box-shadow var(--t),color var(--t)}
+.chip:hover{color:var(--text)}
+.chip.on{box-shadow:var(--inset-sm);color:var(--accent)}
+.chip small{font-weight:600;opacity:.7}
+
+/* ---------- раскладка ---------- */
+.layout{flex:1;width:100%;max-width:1500px;margin:0 auto;padding:10px clamp(14px,3vw,28px) 40px;display:grid;grid-template-columns:minmax(0,1fr);gap:24px;align-items:start}
+body.has-preview .layout{grid-template-columns:minmax(0,1fr) minmax(0,clamp(400px,46vw,780px))}
+.browser{min-width:0}
+.preview{display:none;min-width:0}
+body.has-preview .preview{display:flex;flex-direction:column;position:sticky;top:88px;height:calc(100vh - 104px);border-radius:var(--r);box-shadow:var(--raise);overflow:hidden;background:var(--bg)}
+@media (max-width:980px){
+  body.has-preview .layout{grid-template-columns:minmax(0,1fr)}
+  body.has-preview .preview{position:fixed;inset:0;height:auto;border-radius:0;z-index:50;box-shadow:none}
+  body.has-preview{overflow:hidden}
+}
+
+/* ---------- карточки и элементы ---------- */
+.card{background:var(--bg);border-radius:var(--r);box-shadow:var(--raise);padding:20px 22px}
+.h{font-size:12.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:26px 0 12px;display:flex;align-items:center;gap:8px}
+.h small{letter-spacing:0;text-transform:none;font-weight:600;color:var(--faint)}
+.crumbs{display:flex;align-items:center;flex-wrap:wrap;gap:2px 4px;padding:4px 2px 8px;font-size:14px}
+.crumbs>*{flex:none}
+.crumbs button{padding:4px 8px;border-radius:8px;color:var(--muted);display:inline-flex;align-items:center;gap:6px;max-width:min(320px,100%);transition:box-shadow var(--t),color var(--t)}
+.crumbs button .lbl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.crumbs button:hover{color:var(--text);box-shadow:var(--raise-xs)}
+.crumbs button[aria-current]{color:var(--text);font-weight:600;max-width:100%}
+.crumbs .sep{color:var(--faint);flex:none}.crumbs .sep .i{width:16px;height:16px}
+
+.ph{display:flex;gap:16px;align-items:flex-start;margin:6px 0 4px}
+.ph-icon{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;box-shadow:var(--raise-sm);color:var(--accent);flex:none}
+.ph-icon .i{width:26px;height:26px}
+.ph-kicker{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.ph h1{font-size:clamp(20px,2.6vw,27px);font-weight:700;margin:2px 0 4px;overflow-wrap:anywhere}
+.ph-sub{color:var(--muted);font-size:14px;display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
+.badge{display:inline-flex;align-items:center;height:24px;padding:0 9px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.03em;box-shadow:var(--inset-sm);color:var(--accent)}
+.badge.ok{color:var(--ok)}.badge.warn{color:var(--warn)}.badge.muted{color:var(--muted)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.fcard{display:flex;gap:14px;align-items:flex-start;text-align:left;padding:15px 16px;border-radius:var(--r);box-shadow:var(--raise-sm);background:var(--bg);min-width:0;transition:box-shadow var(--t),transform var(--t)}
+.fcard:hover{box-shadow:var(--raise);transform:translateY(-2px)}
+.fcard:active{box-shadow:var(--inset-sm);transform:none}
+.fcard .ic{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;box-shadow:var(--inset-sm);color:var(--accent);flex:none}
+.fcard .tx{min-width:0;flex:1}
+.fcard .nm{font-weight:650;line-height:1.3;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.fcard .sb{font-size:12.5px;color:var(--muted);margin-top:4px;display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center}
+.fcard .nm .code{color:var(--accent);font-weight:700;font-variant-numeric:tabular-nums}
+.fcard.inst .ic{font-weight:800;font-size:12px;letter-spacing:.02em;color:var(--accent)}
+.fcard.inst .big{font-size:20px;font-weight:800;letter-spacing:-.01em}
+
+.files{display:flex;flex-direction:column;gap:10px}
+.frow{display:flex;align-items:center;gap:13px;padding:9px 12px;border-radius:var(--r-sm);box-shadow:var(--raise-xs);background:var(--bg);text-align:left;width:100%;min-width:0;transition:box-shadow var(--t)}
+.frow:hover{box-shadow:var(--raise-sm)}
+.frow.active{box-shadow:var(--inset-sm)}
+.frow .tx{flex:1;min-width:0}
+.frow .nm{display:block;font-weight:600;overflow-wrap:anywhere;line-height:1.3}
+.frow .sb{display:block;font-size:12px;color:var(--muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.frow .act{display:flex;gap:6px;flex:none;opacity:0;transition:opacity var(--t)}
+.frow:hover .act,.frow.active .act,.frow:focus-within .act{opacity:1}
+@media (hover:none){.frow .act{opacity:1}}
+.frow .size{font-size:12px;color:var(--muted);flex:none;font-variant-numeric:tabular-nums;min-width:62px;text-align:right}
+@media (max-width:480px){.frow .a-open{display:none}.frow .size{min-width:0}}
+@media (hover:none){.search kbd{display:none}}
+.ext{min-width:50px;height:36px;padding:0 6px;border-radius:11px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;letter-spacing:.03em;box-shadow:var(--inset-sm);color:var(--c,var(--muted));flex:none}
+.ext.lg{min-width:52px;height:42px;font-size:12px}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+.stat{padding:12px 14px;border-radius:var(--r-sm);box-shadow:var(--inset-sm);min-width:0}
+.stat b{display:block;font-size:22px;font-weight:750;letter-spacing:-.02em;line-height:1.1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stat span{font-size:12px;color:var(--muted)}
+.hero{display:grid;gap:18px}
+.hero h1{font-size:clamp(22px,2.8vw,30px);font-weight:750}
+.hero p{color:var(--muted);max-width:720px;margin-top:6px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;align-items:start}
+.bar{display:flex;height:12px;border-radius:999px;overflow:hidden;box-shadow:var(--inset-sm);background:color-mix(in srgb,var(--sd) 30%,transparent)}
+.bar i{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px;font-size:13px;color:var(--muted)}
+.legend b{color:var(--text);font-weight:650}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:1px}
+.rows{display:flex;flex-direction:column;gap:9px}
+.row{display:grid;grid-template-columns:1fr auto;gap:8px 12px;align-items:center;font-size:14px}
+.row .track{grid-column:1/-1;height:6px;border-radius:999px;box-shadow:var(--inset-sm);overflow:hidden}
+.row .track i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:999px}
+.row b{font-variant-numeric:tabular-nums;color:var(--muted);font-weight:600}
+.card h3{font-size:16px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+
+details.card{padding:0}
+details.card summary{list-style:none;cursor:pointer;padding:18px 22px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-weight:700;font-size:16px}
+details.card summary::-webkit-details-marker{display:none}
+details.card summary .i.chev{margin-left:auto;transition:transform var(--t);color:var(--muted)}
+details[open].card summary .i.chev{transform:rotate(90deg)}
+details.card .body{padding:0 22px 20px}
+.issue{padding:12px 0;border-top:1px solid color-mix(in srgb,var(--sd) 45%,transparent)}
+.issue .t{font-weight:650;display:flex;align-items:center;gap:8px}
+.issue .hint{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.issue .items{display:flex;flex-direction:column;gap:5px}
+.issue .items button{text-align:left;font-size:13px;color:var(--accent);padding:4px 8px;border-radius:7px;display:flex;gap:8px;align-items:baseline;overflow-wrap:anywhere}
+.issue .items button:hover{box-shadow:var(--raise-xs)}
+.issue .items small{color:var(--faint);flex:none}
+.lvl{width:10px;height:10px;border-radius:50%;flex:none;box-shadow:var(--raise-xs)}
+.lvl.warn{background:var(--warn)}.lvl.info{background:var(--accent)}.lvl.ok{background:var(--ok)}
+
+.empty{padding:40px 20px;text-align:center;color:var(--muted);border-radius:var(--r);box-shadow:var(--inset-sm)}
+.empty .i{width:34px;height:34px;color:var(--faint);margin-bottom:8px}
+.loader{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:48px 20px;color:var(--muted);text-align:center}
+.spin{width:34px;height:34px;border-radius:50%;box-shadow:var(--inset-sm);position:relative}
+.spin::after{content:"";position:absolute;inset:6px;border-radius:50%;border:3px solid transparent;border-top-color:var(--accent);animation:rot .9s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+.loader-sub{font-size:12px;color:var(--faint);font-variant-numeric:tabular-nums}
+.err{padding:24px;border-radius:var(--r);box-shadow:var(--raise);display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.err h3{display:flex;align-items:center;gap:8px;color:var(--danger)}
+
+/* ---------- панель предпросмотра ---------- */
+.pv-head{padding:16px 18px 12px;display:flex;flex-direction:column;gap:10px;flex:none}
+.pv-title{display:flex;align-items:center;gap:12px;min-width:0}
+.pv-title h2{font-size:16px;font-weight:700;line-height:1.3;overflow-wrap:anywhere;flex:1;min-width:0}
+.pv-path{font-size:12px;color:var(--muted);display:flex;gap:4px;align-items:center;min-width:0;overflow:hidden;white-space:nowrap}
+.pv-path button{color:var(--muted);overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.pv-path button:hover{color:var(--accent)}
+.pv-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pv-tools{display:flex;align-items:center;gap:8px;margin-left:auto}
+.pv-tools:empty{display:none}
+.pv-body{flex:1;min-height:0;overflow:auto;padding:0 18px 18px;position:relative;scrollbar-width:thin;overscroll-behavior:contain}
+.pv-stage{border-radius:var(--r-sm);box-shadow:var(--inset);padding:14px;min-height:100%}
+.seg{display:inline-flex;gap:4px;padding:3px;border-radius:999px;box-shadow:var(--inset-sm)}
+.seg button{height:28px;padding:0 11px;border-radius:999px;font-size:12.5px;font-weight:600;color:var(--muted)}
+.seg button.on{box-shadow:var(--raise-xs);color:var(--accent)}
+.pdf-count{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.pdf-count b{color:var(--text)}
+.pdf-pages{display:flex;flex-direction:column;align-items:center;gap:14px}
+.pdf-page{position:relative;background:#fff;border-radius:4px;box-shadow:0 8px 20px -8px rgba(0,0,0,.4);overflow:hidden;flex:none;max-width:none}
+.pdf-page canvas{display:block}
+.pdf-num{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:12px;color:#aab}
+.imgwrap{margin:0;text-align:center}
+.imgwrap img{max-width:100%;height:auto;border-radius:8px;box-shadow:0 8px 20px -8px rgba(0,0,0,.4);cursor:zoom-in}
+.imgwrap.zoomed{text-align:left}.imgwrap.zoomed img{max-width:none;cursor:zoom-out}
+pre.txt{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.55 var(--mono)}
+.md{line-height:1.6;overflow-wrap:anywhere}
+.md h1{font-size:22px;margin:0 0 12px}.md h2{font-size:18px;margin:22px 0 10px}.md h3{font-size:16px;margin:18px 0 8px}.md h4,.md h5,.md h6{font-size:14px;margin:14px 0 6px}
+.md p{margin:0 0 10px}.md ul,.md ol{margin:0 0 10px;padding-left:22px}.md li{margin:2px 0}
+.md a{color:var(--accent);text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--accent) 35%,transparent)}
+.md pre{margin:0 0 12px;padding:14px;border-radius:12px;box-shadow:var(--inset-sm);overflow:auto;font:12.5px/1.5 var(--mono)}
+.md code{font:.92em var(--mono);padding:1px 5px;border-radius:5px;box-shadow:var(--inset-sm)}.md pre code{padding:0;box-shadow:none}
+.md blockquote{margin:0 0 10px;padding:8px 14px;border-left:3px solid var(--accent);color:var(--muted)}
+.md img{max-width:100%;height:auto;border-radius:8px}.md hr{border:0;height:1px;background:var(--sd);margin:16px 0}
+.md table{border-collapse:collapse;margin:0 0 12px;font-size:14px}.md td,.md th{border:1px solid color-mix(in srgb,var(--sd) 60%,transparent);padding:5px 9px}
+.sched .top-line{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;margin-bottom:14px;font-size:13.5px;color:var(--muted)}
+.sched .day{margin-bottom:18px}
+.sched .day h4{font-size:13px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:0 0 8px;display:flex;gap:8px;align-items:center}
+.sched .day.today h4{color:var(--accent)}
+.les{display:grid;grid-template-columns:62px 1fr;gap:4px 12px;padding:10px 12px;border-radius:12px;box-shadow:var(--raise-xs);margin-bottom:8px;align-items:start}
+.les time{font-weight:650;font-size:13px;line-height:1.3;font-variant-numeric:tabular-nums;color:var(--text)}
+.les time small{display:block;color:var(--faint);font-weight:500}
+.les .sum{font-weight:600;line-height:1.3}
+.les .meta{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:3px 12px;margin-top:3px}
+.les .meta span{display:inline-flex;align-items:center;gap:4px}.les .meta .i{width:14px;height:14px;opacity:.8}
+.kind{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.04em;padding:1px 7px;border-radius:999px;margin-right:6px;vertical-align:1px;box-shadow:var(--inset-sm);color:var(--kc,var(--muted))}
+.fallback{display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;padding:40px 16px;color:var(--muted)}
+.fallback .ext{width:64px;height:64px;border-radius:18px;font-size:14px}
+.fallback .btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+
+/* ---------- прочее ---------- */
+.foot{width:100%;max-width:1500px;margin:0 auto;padding:6px clamp(14px,3vw,28px) 30px;display:flex;flex-wrap:wrap;gap:10px 22px;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px}
+.foot nav{display:flex;flex-wrap:wrap;gap:4px 18px}
+.foot a:hover{color:var(--accent)}
+.src{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,16px);opacity:0;padding:11px 18px;border-radius:999px;background:var(--bg);box-shadow:var(--raise);font-weight:600;font-size:14px;z-index:100;pointer-events:none;transition:opacity var(--t),transform var(--t)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--sd) 80%,transparent);border-radius:999px;border:3px solid var(--bg)}
+</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+  <symbol id="i-github" viewBox="0 0 24 24"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2.17c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.41.36.78 1.05.78 2.12v3.14c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></symbol>
+  <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M4 19h16"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6zM14 3v4h4"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M11 18l-6-6 6-6"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.7M20 4v5h-5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 3 2 21h20L12 3zM12 10v5M12 18v.5"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8v.5"/></symbol>
+  <symbol id="i-zin" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5M11 8v6M8 11h6"/></symbol>
+  <symbol id="i-zout" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5M8 11h6"/></symbol>
+  <symbol id="i-fit" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11 12 4l9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-inst" viewBox="0 0 24 24"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6M12 12h.01"/></symbol>
+  <symbol id="i-cap" viewBox="0 0 24 24"><path d="m2 9 10-4 10 4-10 4zM6 11.5V16c0 1.7 2.7 3 6 3s6-1.3 6-3v-4.5M22 9v5"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5zM3 13l9 5 9-5M3 17l9 5 9-5"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 4h12a3 3 0 0 1 3 3v13H7a3 3 0 0 0-3 3zM4 4v16a3 3 0 0 1 3-3h12M8 8h7"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+  <symbol id="i-img" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="m21 16-5-5-8 8"/></symbol>
+  <symbol id="i-pie" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-9-9v9z"/><path d="M15 3.5A9 9 0 0 1 20.5 9H15z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.4 7.8 8 9 4.6-1.2 8-4.5 8-9V6z"/></symbol>
+  <symbol id="i-today" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M12 14v.5"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6-5.5-6-11a6 6 0 0 1 12 0c0 5.5-6 11-6 11z"/><circle cx="12" cy="10" r="2"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+</svg>
+
+<header class="top">
+  <a class="brand" href="#/" aria-label="На главную">
+    <span class="brand-mark">K</span>
+    <span class="brand-text"><b>KSUdata</b><small>Учебные материалы · Студент КГУ</small></span>
+  </a>
+  <label class="search" id="searchBox">
+    <svg class="i"><use href="#i-search"/></svg>
+    <input id="q" type="search" placeholder="Поиск по дисциплинам и файлам" autocomplete="off" spellcheck="false" aria-label="Поиск">
+    <kbd>/</kbd>
+    <button class="clear" id="qClear" type="button" aria-label="Очистить"><svg class="i"><use href="#i-close"/></svg></button>
+  </label>
+  <nav class="actions">
+    <button class="btn icon-btn" id="themeBtn" type="button" title="Переключить тему" aria-label="Переключить тему"><svg class="i"><use id="themeIcon" href="#i-moon"/></svg></button>
+    <a class="btn icon-btn" id="ghLink" href="https://github.com/MichelSmirnow/KSUdata" target="_blank" rel="noopener" title="Репозиторий на GitHub" aria-label="GitHub"><svg class="i fill"><use href="#i-github"/></svg></a>
+    <a class="btn accent" id="portalLink" href="http://kgustud.ru" target="_blank" rel="noopener" title="Открыть портал Студент КГУ"><svg class="i"><use href="#i-cap"/></svg><span>Студент КГУ</span></a>
+  </nav>
+</header>
+
+<main class="layout">
+  <section class="browser" id="browser" aria-live="polite">
+    <div class="loader"><div class="spin"></div><div>Анализируем репозиторий…</div></div>
+  </section>
+  <aside class="preview" id="preview" aria-label="Предпросмотр файла"></aside>
+</main>
+
+<footer class="foot">
+  <div class="src" id="src"></div>
+  <nav>
+    <a href="https://github.com/MichelSmirnow/KSUstudentPortal" target="_blank" rel="noopener">Главный репозиторий</a>
+    <a href="https://github.com/MichelSmirnow/KSUdata" target="_blank" rel="noopener">KSUdata</a>
+    <a href="http://kgustud.ru" target="_blank" rel="noopener">kgustud.ru</a>
+    <a href="https://t.me/ksustudent2026" target="_blank" rel="noopener">Telegram</a>
+  </nav>
+</footer>
+<div class="toast" id="toast" role="status"></div>
+<noscript><div style="padding:24px;text-align:center">Для работы обозревателя нужен JavaScript. Файлы доступны в <a href="https://github.com/MichelSmirnow/KSUdata">репозитории на GitHub</a>.</div></noscript>
+
+<script>
+(() => {
+'use strict';
+
+/* =========================================================
+   Настройки
+   ========================================================= */
+const CONFIG = {
+  owner: 'MichelSmirnow',
+  repo: 'KSUdata',
+  branch: 'main',
+  // Откуда брать содержимое файлов. null — определить автоматически:
+  // если сайт лежит в самом репозитории (GitHub Pages) — относительные пути,
+  // иначе raw.githubusercontent.com. Можно задать явно, например
+  // 'https://michelsmirnow.github.io/KSUdata/'.
+  filesBase: null,
+  // Служебные файлы сайта: не показываются в обозревателе и не входят в статистику
+  hidden: ['index.html', 'manifest.json', '.nojekyll', '.github', 'CNAME', 'LICENSE', 'README.md'],
+  // Расшифровка аббревиатур институтов (дополняйте по мере появления папок)
+  institutes: {
+    'ИВИТШ': 'Институт «Высшая ИТ-школа»',
+    'ИГНиСТ': 'Институт гуманитарных наук и социальных технологий',
+    'ИКИ': 'Институт культуры и искусств',
+    'ИПП': 'Институт педагогики и психологии',
+    'ИУЭФ': 'Институт управления, экономики и финансов',
+    'ИФМЕН': 'Институт физико-математических и естественных наук',
+    'ЮИН': 'Юридический институт',
+  },
+  // Типовые разделы дисциплин из README (в этом порядке они и показываются)
+  categories: [
+    'Специальные основные дисциплины',
+    'Специальные дополнительные дисциплины',
+    'Математические дисциплины',
+    'Вспомогательные дисциплины',
+    'Коммуникативные и социальные дисциплины',
+    'Элективы и факультативы',
+  ],
+  // Прочие допустимые папки уровня направления
+  extras: ['Практика', 'Аннотации', 'Дополнительные документы'],
+  bigFile: 50 * 1024 * 1024,
+  timeZone: 'Europe/Moscow',
+};
+const CDN = {
+  pdf: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.min.mjs',
+  pdfWorker: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.min.mjs',
+  cmaps: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/cmaps/',
+  fonts: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/standard_fonts/',
+  mammoth: 'https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js',
+};
+const RAW = `https://raw.githubusercontent.com/${CONFIG.owner}/${CONFIG.repo}/${CONFIG.branch}/`;
+const GH = `https://github.com/${CONFIG.owner}/${CONFIG.repo}`;
+
+/* типы файлов */
+const TYPES = {
+  pdf:  { label: 'PDF',  color: '#e2574c', kind: 'pdf' },
+  docx: { label: 'DOCX', color: '#3f6fe0', kind: 'docx' },
+  doc:  { label: 'DOC',  color: '#3f6fe0', kind: 'other' },
+  txt:  { label: 'TXT',  color: '#6f7a93', kind: 'text' },
+  md:   { label: 'MD',   color: '#6f7a93', kind: 'text' },
+  csv:  { label: 'CSV',  color: '#6f7a93', kind: 'text' },
+  json: { label: 'JSON', color: '#6f7a93', kind: 'text' },
+  ics:  { label: 'ICS',  color: '#2f9e6b', kind: 'ics' },
+  jpg:  { label: 'JPG',  color: '#a855c8', kind: 'image' },
+  jpeg: { label: 'JPEG', color: '#a855c8', kind: 'image' },
+  png:  { label: 'PNG',  color: '#a855c8', kind: 'image' },
+  gif:  { label: 'GIF',  color: '#a855c8', kind: 'image' },
+  webp: { label: 'WEBP', color: '#a855c8', kind: 'image' },
+  svg:  { label: 'SVG',  color: '#a855c8', kind: 'image' },
+  xlsx: { label: 'XLSX', color: '#2f9e6b', kind: 'other' },
+  pptx: { label: 'PPTX', color: '#e08a2c', kind: 'other' },
+  zip:  { label: 'ZIP',  color: '#8a93a8', kind: 'other' },
+};
+const GROUPS = [
+  { id: 'all',   label: 'Все' },
+  { id: 'pdf',   label: 'PDF',          color: '#e2574c' },
+  { id: 'docx',  label: 'Word',         color: '#3f6fe0' },
+  { id: 'text',  label: 'Текст',        color: '#6f7a93' },
+  { id: 'ics',   label: 'Расписание',   color: '#2f9e6b' },
+  { id: 'image', label: 'Изображения',  color: '#a855c8' },
+  { id: 'other', label: 'Прочее',       color: '#8a93a8' },
+];
+const typeOf = ext => TYPES[ext] || { label: (ext || 'FILE').toUpperCase().slice(0, 5), color: '#8a93a8', kind: 'other' };
+const kindOf = ext => typeOf(ext).kind;
+const KINDS = { lecture: ['Лекция', '#4f6bf2'], practice: ['Практика', '#2f9e6b'], lab: ['Лабораторная', '#d9892c'], seminar: ['Семинар', '#a855c8'], exam: ['Экзамен', '#dd5a4a'], credit: ['Зачёт', '#dd5a4a'], consult: ['Консультация', '#6f7a93'] };
+
+/* =========================================================
+   Утилиты
+   ========================================================= */
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const icon = (id, cls = '') => `<svg class="i ${cls}"><use href="#${id}"/></svg>`;
+const word = (n, one, few, many) => { const a = Math.abs(n) % 100, b = a % 10; return a > 10 && a < 20 ? many : b > 1 && b < 5 ? few : b === 1 ? one : many; };
+const plural = (n, one, few, many) => `${n.toLocaleString('ru-RU')} ${word(n, one, few, many)}`;
+const fmtSize = b => { if (!b) return '0 Б'; const u = ['Б', 'КБ', 'МБ', 'ГБ']; let i = 0; while (b >= 1024 && i < u.length - 1) { b /= 1024; i++; } return `${b.toLocaleString('ru-RU', { maximumFractionDigits: i ? 1 : 0 })} ${u[i]}`; };
+const fmtDate = (iso, time = true) => { if (!iso) return '—'; const d = new Date(iso); if (isNaN(d)) return '—'; return d.toLocaleString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric', ...(time ? { hour: '2-digit', minute: '2-digit' } : {}) }); };
+const encodePath = p => p.split('/').map(encodeURIComponent).join('/');
+const norm = s => s.toLowerCase().replace(/ё/g, 'е');
+const debounce = (f, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => f(...a), ms); }; };
+const throttle = (f, ms) => { let t = 0, id; return (...a) => { const now = Date.now(); clearTimeout(id); if (now - t >= ms) { t = now; f(...a); } else id = setTimeout(() => { t = Date.now(); f(...a); }, ms - (now - t)); }; };
+const ls = { get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} } };
+let toastTimer;
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 2200); }
+const loaderHtml = (text, sub = '') => `<div class="loader"><div class="spin"></div><div>${esc(text)}</div><div class="loader-sub">${esc(sub)}</div></div>`;
+function loadScript(src) { return new Promise((res, rej) => { if (document.querySelector(`script[src="${src}"]`)) return res(); const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = () => rej(new Error('Не удалось загрузить ' + src)); document.head.appendChild(s); }); }
+
+/* =========================================================
+   Состояние
+   ========================================================= */
+const state = {
+  root: null, nodes: new Map(), list: [], files: [],
+  stats: null, issues: [],
+  source: null,              // { kind, commit, stale }
+  base: RAW, sameOrigin: false,
+  current: null, preview: null,
+  query: '', group: 'all',
+};
+
+/* =========================================================
+   Загрузка данных: manifest.json → GitHub API (с ETag-кэшем)
+   ========================================================= */
+async function loadData(force = false) {
+  if (!force) {
+    try {
+      const r = await fetch('manifest.json', { cache: 'no-cache' });
+      if (r.ok && !(r.headers.get('content-type') || '').includes('text/html')) {
+        const m = await r.json();
+        if (Array.isArray(m.tree)) return { entries: m.tree, kind: 'manifest', commit: m.commit || null };
+      }
+    } catch {}
+  }
+  return loadFromApi(force);
+}
+
+async function loadFromApi(force) {
+  const key = `ksudata:tree:${CONFIG.owner}/${CONFIG.repo}@${CONFIG.branch}`;
+  const cached = ls.get(key);
+  const headers = { Accept: 'application/vnd.github+json' };
+  if (cached?.etag && !force) headers['If-None-Match'] = cached.etag;
+  const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/git/trees/${encodeURIComponent(CONFIG.branch)}?recursive=1`;
+  let r;
+  try { r = await fetch(url, { headers, cache: 'no-store' }); }
+  catch (e) { if (cached) return { ...cached.data, kind: 'cache', stale: true }; throw new Error('Нет соединения с GitHub API'); }
+  if (r.status === 304 && cached) return { ...cached.data, kind: 'api' };
+  if (r.status === 403 || r.status === 429) {
+    if (cached) return { ...cached.data, kind: 'cache', stale: true };
+    throw new Error('GitHub API временно ограничил количество запросов. Попробуйте позже или откройте файлы на GitHub.');
+  }
+  if (!r.ok) throw new Error(`GitHub API: HTTP ${r.status}`);
+  const json = await r.json();
+  const entries = json.tree.map(e => ({ path: e.path, type: e.type, sha: e.sha, size: e.size }));
+  const commit = await fetchLastCommit().catch(() => null);
+  const data = { entries, commit };
+  ls.set(key, { etag: r.headers.get('ETag'), data });
+  return { ...data, kind: 'api' };
+}
+
+async function fetchLastCommit() {
+  const key = `ksudata:commit:${CONFIG.owner}/${CONFIG.repo}@${CONFIG.branch}`;
+  const cached = ls.get(key);
+  const headers = { Accept: 'application/vnd.github+json' };
+  if (cached?.etag) headers['If-None-Match'] = cached.etag;
+  const r = await fetch(`https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/commits?sha=${encodeURIComponent(CONFIG.branch)}&per_page=1`, { headers, cache: 'no-store' });
+  if (r.status === 304 && cached) return cached.data;
+  if (!r.ok) return cached?.data || null;
+  const [c] = await r.json();
+  const data = c ? { sha: c.sha, date: c.commit?.committer?.date || c.commit?.author?.date, message: (c.commit?.message || '').split('\n')[0] } : null;
+  ls.set(key, { etag: r.headers.get('ETag'), data });
+  return data;
+}
+
+/* Определяем, лежит ли сайт в самом репозитории (тогда файлы берём по относительным путям) */
+async function detectBase() {
+  if (CONFIG.filesBase) { state.base = CONFIG.filesBase; state.sameOrigin = false; return; }
+  if (location.protocol === 'file:') return;
+  const probe = state.nodes.has('README.md') ? 'README.md' : state.files.slice().sort((a, b) => a.size - b.size)[0]?.path;
+  if (!probe) return;
+  try {
+    const r = await fetch(encodePath(probe), { method: 'HEAD', cache: 'no-store' });
+    if (r.ok && !(r.headers.get('content-type') || '').includes('text/html')) { state.base = new URL('./', location.href).href; state.sameOrigin = true; }
+  } catch {}
+}
+const fileUrl = p => state.base + encodePath(p);
+const ghBlobUrl = p => `${GH}/blob/${CONFIG.branch}/${encodePath(p)}`;
+const downloadUrl = p => state.sameOrigin ? fileUrl(p) : `${GH}/raw/${CONFIG.branch}/${encodePath(p)}`;
+const openUrl = p => state.sameOrigin ? fileUrl(p) : ghBlobUrl(p);
+
+/* =========================================================
+   Построение дерева и анализ структуры
+   ========================================================= */
+const isHidden = p => CONFIG.hidden.includes(p.split('/')[0]);
+
+function buildTree(entries) {
+  const root = { name: 'KSUdata', path: '', type: 'dir', depth: 0, parent: null, children: [] };
+  const nodes = new Map([['', root]]);
+  for (const e of entries) {
+    if (!e.path) continue;
+    const parts = e.path.split('/');
+    let cur = root;
+    for (let i = 0; i < parts.length; i++) {
+      const p = parts.slice(0, i + 1).join('/');
+      let n = nodes.get(p);
+      if (!n) {
+        const last = i === parts.length - 1;
+        n = { name: parts[i], path: p, type: last && e.type === 'blob' ? 'file' : 'dir', depth: i + 1, parent: cur, children: [], hidden: isHidden(p) };
+        if (n.type === 'file') { n.size = e.size || 0; n.sha = e.sha; n.ext = (parts[i].match(/\.([a-z0-9]+)$/i) || [, ''])[1].toLowerCase(); }
+        n.lname = norm(n.name); n.lpath = norm(p);
+        nodes.set(p, n); cur.children.push(n);
+      }
+      cur = n;
+    }
+  }
+  assignRoles(root);
+  aggregate(root);
+  sortTree(root);
+  return { root, nodes };
+}
+
+const SPEC_RE = /\b\d{2}\.\d{2}\.\d{2}\b/;
+function assignRoles(n) {
+  for (const c of n.children) {
+    if (c.type === 'dir') {
+      if (c.depth === 1) c.role = 'institute';
+      else if (c.depth === 2) c.role = SPEC_RE.test(c.name) ? 'specialty' : 'section';
+      else if (c.depth === 3 && n.role === 'specialty') c.role = CONFIG.categories.includes(c.name) ? 'category' : CONFIG.extras.includes(c.name) ? 'extra' : 'folder';
+      else if (c.depth === 4 && n.role === 'category') c.role = 'discipline';
+      else c.role = 'folder';
+      assignRoles(c);
+    }
+  }
+}
+function aggregate(n) {
+  n.files = 0; n.bytes = 0; n.dirs = 0; n.spec = 0; n.disc = 0; n.ics = 0; n.hasProgram = false;
+  for (const c of n.children) {
+    if (c.hidden) continue;
+    if (c.type === 'file') { n.files++; n.bytes += c.size; if (c.ext === 'ics') n.ics++; if (c.ext === 'pdf' && /программ/i.test(c.name)) n.hasProgram = true; }
+    else { aggregate(c); n.dirs++; n.files += c.files; n.bytes += c.bytes; n.spec += c.spec + (c.role === 'specialty'); n.disc += c.disc + (c.role === 'discipline'); n.ics += c.ics; }
+  }
+}
+const ROLE_ORDER = { specialty: 0, section: 1, category: 2, extra: 3, discipline: 4, folder: 5 };
+function sortTree(n) {
+  n.children.sort((a, b) => {
+    if (a.type !== b.type) return a.type === 'dir' ? -1 : 1;
+    if (a.type === 'dir') {
+      const ra = ROLE_ORDER[a.role] ?? 9, rb = ROLE_ORDER[b.role] ?? 9;
+      if (ra !== rb) return ra - rb;
+      if (a.role === 'category') return CONFIG.categories.indexOf(a.name) - CONFIG.categories.indexOf(b.name);
+    }
+    return a.name.localeCompare(b.name, 'ru', { numeric: true, sensitivity: 'base' });
+  });
+  n.children.forEach(c => c.type === 'dir' && sortTree(c));
+}
+function walk(n, f) { for (const c of n.children) { if (c.hidden) continue; f(c); if (c.type === 'dir') walk(c, f); } }
+
+function computeStats(root) {
+  const s = { institutes: 0, specialties: 0, disciplines: 0, files: root.files, bytes: root.bytes, ics: root.ics, byGroup: {}, byCategory: new Map() };
+  walk(root, n => {
+    if (n.type === 'file') { s.byGroup[kindOf(n.ext)] = (s.byGroup[kindOf(n.ext)] || 0) + 1; return; }
+    if (n.role === 'institute') s.institutes++;
+    else if (n.role === 'specialty') s.specialties++;
+    else if (n.role === 'discipline') s.disciplines++;
+    else if (n.role === 'category') s.byCategory.set(n.name, (s.byCategory.get(n.name) || 0) + n.children.filter(c => c.role === 'discipline').length);
+  });
+  return s;
+}
+
+/* Проверка соответствия типовой структуре из README */
+function audit(root, files) {
+  const issues = [];
+  const bySha = new Map();
+  for (const f of files) if (f.sha) (bySha.get(f.sha) || bySha.set(f.sha, []).get(f.sha)).push(f);
+  for (const arr of bySha.values()) if (arr.length > 1)
+    issues.push({ level: 'warn', title: `Одинаковое содержимое — ${plural(arr.length, 'файл', 'файла', 'файлов')}`, hint: 'Файлы совпадают побайтово: возможно, дубликат или ошибка при загрузке.', items: arr });
+  const noProg = [], odd = [];
+  walk(root, n => {
+    if (n.role === 'discipline' && !n.hasProgram) noProg.push(n);
+    if (n.depth === 3 && n.parent.role === 'specialty' && n.role === 'folder') odd.push(n);
+  });
+  if (noProg.length) issues.push({ level: 'info', title: `Нет программы дисциплины — ${noProg.length}`, hint: 'В папке дисциплины не найден PDF со словом «Программа».', items: noProg });
+  if (odd.length) issues.push({ level: 'info', title: `Нестандартные разделы — ${odd.length}`, hint: 'Название раздела не входит в типовую структуру из README.', items: odd });
+  const big = files.filter(f => f.size >= CONFIG.bigFile);
+  if (big.length) issues.push({ level: 'warn', title: `Крупные файлы (≥ ${fmtSize(CONFIG.bigFile)}) — ${big.length}`, hint: 'GitHub ограничивает размер файла 100 МБ; такие файлы долго открываются.', items: big });
+  const unk = files.filter(f => kindOf(f.ext) === 'other');
+  if (unk.length) issues.push({ level: 'info', title: `Без предпросмотра — ${unk.length}`, hint: 'Формат не поддерживается встроенным просмотром, доступно только скачивание.', items: unk });
+  return issues;
+}
+
+/* =========================================================
+   Описания узлов
+   ========================================================= */
+const ROLE_LABEL = { institute: 'Институт', specialty: 'Направление подготовки', section: 'Раздел', category: 'Раздел дисциплин', extra: 'Материалы', discipline: 'Дисциплина', folder: 'Папка' };
+const ROLE_ICON = { institute: 'i-inst', specialty: 'i-cap', section: 'i-cal', category: 'i-layers', extra: 'i-folder', discipline: 'i-book', folder: 'i-folder' };
+const roleIcon = n => n.role === 'section' && !/расписан/i.test(n.name) ? 'i-folder' : ROLE_ICON[n.role] || 'i-folder';
+function describe(n) {
+  const f = plural(n.files, 'файл', 'файла', 'файлов');
+  switch (n.role) {
+    case 'institute': return `${plural(n.spec, 'направление', 'направления', 'направлений')} · ${f} · ${fmtSize(n.bytes)}`;
+    case 'specialty': return `${plural(n.disc, 'дисциплина', 'дисциплины', 'дисциплин')} · ${f}`;
+    case 'category': return plural(n.children.filter(c => c.role === 'discipline').length, 'дисциплина', 'дисциплины', 'дисциплин');
+    case 'discipline': return `${f}${n.hasProgram ? ' · есть программа' : ''}`;
+    default: return n.ics && n.ics === n.files ? `${plural(n.ics, 'группа', 'группы', 'групп')} · ${fmtSize(n.bytes)}` : `${f} · ${fmtSize(n.bytes)}`;
+  }
+}
+function childrenHeading(dirs) {
+  const roles = new Set(dirs.map(d => d.role));
+  if (roles.size === 1) return { specialty: 'Направления подготовки', category: 'Разделы дисциплин', discipline: 'Дисциплины', institute: 'Институты', section: 'Разделы' }[dirs[0].role] || 'Папки';
+  return 'Разделы';
+}
+const nameHtml = n => n.role === 'specialty' ? esc(n.name).replace(SPEC_RE, m => `<span class="code">${m}</span>`) : esc(n.name);
+
+/* =========================================================
+   Рендер: карточки, строки, крошки
+   ========================================================= */
+function cardHtml(n) {
+  if (n.role === 'institute') {
+    const full = CONFIG.institutes[n.name];
+    return `<button class="fcard inst" data-go="${esc(n.path)}"><span class="ic">${icon('i-inst')}</span><span class="tx"><span class="nm big">${esc(n.name)}</span>${full ? `<span class="sb">${esc(full)}</span>` : ''}<span class="sb">${esc(describe(n))}</span></span></button>`;
+  }
+  const extra = n.role === 'discipline' && n.hasProgram ? `<span class="badge ok" title="Есть программа дисциплины">${icon('i-check')}</span>` : '';
+  return `<button class="fcard" data-go="${esc(n.path)}"><span class="ic">${icon(roleIcon(n))}</span><span class="tx"><span class="nm">${nameHtml(n)}</span><span class="sb">${esc(describe(n).replace(' · есть программа', ''))}${extra}</span></span></button>`;
+}
+function rowHtml(f, sub = '', hl = null) {
+  const t = typeOf(f.ext);
+  const name = hl ? hl(f.name) : esc(f.name);
+  if (f.ext === 'ics' && f.meta) sub = (sub ? sub + ' · ' : '') + esc(icsSubtitle(f.meta));
+  return `<div class="frow${state.preview === f ? ' active' : ''}" data-open="${esc(f.path)}" role="button" tabindex="0">
+    <span class="ext" style="--c:${t.color}">${t.label}</span>
+    <span class="tx"><span class="nm">${name}</span>${sub ? `<span class="sb">${sub}</span>` : ''}</span>
+    <span class="size">${fmtSize(f.size)}</span>
+    <span class="act">
+      <a class="btn icon-btn sm a-open" href="${esc(openUrl(f.path))}" target="_blank" rel="noopener" title="Открыть в новой вкладке" data-stop>${icon('i-external')}</a>
+      <a class="btn icon-btn sm" href="${esc(downloadUrl(f.path))}" download="${esc(f.name)}" title="Скачать" data-stop>${icon('i-download')}</a>
+    </span></div>`;
+}
+function crumbsHtml(n) {
+  const chain = []; for (let c = n; c; c = c.parent) chain.unshift(c);
+  return `<nav class="crumbs" aria-label="Путь">${chain.map((c, i) => {
+    const last = i === chain.length - 1;
+    const label = c.depth === 0 ? `${icon('i-home')}<span class="lbl">Главная</span>` : `<span class="lbl">${esc(c.name)}</span>`;
+    return `${i ? `<span class="sep">${icon('i-chev')}</span>` : ''}<button data-go="${esc(c.path)}" ${last ? 'aria-current="page"' : ''} title="${esc(c.name)}">${label}</button>`;
+  }).join('')}</nav>`;
+}
+const emptyHtml = (text) => `<div class="empty">${icon('i-folder')}<div>${esc(text)}</div></div>`;
+
+/* =========================================================
+   Рендер: главная
+   ========================================================= */
+function renderHome() {
+  const s = state.stats, root = state.root;
+  const inst = root.children.filter(c => c.type === 'dir' && !c.hidden);
+  const files = root.children.filter(c => c.type === 'file' && !c.hidden);
+  const updated = state.source?.commit?.date;
+  const groups = GROUPS.filter(g => g.id !== 'all' && s.byGroup[g.id]);
+  const bar = groups.map(g => `<i style="width:${(s.byGroup[g.id] / s.files * 100).toFixed(2)}%;background:${g.color}" title="${g.label}: ${s.byGroup[g.id]}"></i>`).join('');
+  const legend = groups.map(g => `<span><i class="dot" style="background:${g.color}"></i>${g.label} <b>${s.byGroup[g.id]}</b></span>`).join('');
+  const cats = [...s.byCategory.entries()].sort((a, b) => b[1] - a[1]);
+  const maxCat = Math.max(1, ...cats.map(c => c[1]));
+  const warn = state.issues.filter(i => i.level === 'warn').length, info = state.issues.length - warn;
+
+  return `${crumbsHtml(root)}
+  <section class="card hero">
+    <div><h1>Учебные материалы КГУ</h1>
+    <p>Программы дисциплин, аннотации, расписания групп и учебные материалы по направлениям подготовки. Структура репозитория <b>${esc(CONFIG.repo)}</b> анализируется автоматически — ниже его актуальное состояние.</p></div>
+    <div class="stats">
+      <div class="stat"><b>${s.institutes}</b><span>${word(s.institutes, 'институт', 'института', 'институтов')}</span></div>
+      <div class="stat"><b>${s.specialties}</b><span>${word(s.specialties, 'направление', 'направления', 'направлений')}</span></div>
+      <div class="stat"><b>${s.disciplines}</b><span>${word(s.disciplines, 'дисциплина', 'дисциплины', 'дисциплин')}</span></div>
+      <div class="stat"><b>${s.files}</b><span>${word(s.files, 'файл', 'файла', 'файлов')}</span></div>
+      <div class="stat"><b>${fmtSize(s.bytes)}</b><span>общий объём</span></div>
+      <div class="stat"><b title="${esc(fmtDate(updated))}${state.source?.commit?.message ? ' — ' + esc(state.source.commit.message) : ''}">${updated ? new Date(updated).toLocaleDateString('ru-RU') : '—'}</b><span>обновлено</span></div>
+    </div>
+  </section>
+  <h2 class="h">${childrenHeading(inst)}</h2>
+  ${inst.length ? `<div class="grid">${inst.map(cardHtml).join('')}</div>` : emptyHtml('В репозитории пока нет папок институтов')}
+  ${files.length ? `<h2 class="h">Файлы <small>${files.length}</small></h2><div class="files">${files.map(f => rowHtml(f)).join('')}</div>` : ''}
+  <h2 class="h">Состав репозитория</h2>
+  <div class="two">
+    <section class="card"><h3>${icon('i-pie')}Типы файлов</h3><div class="bar">${bar}</div><div class="legend">${legend}</div>
+      ${s.ics ? `<p class="muted sm" style="margin-top:12px">${icon('i-cal')} ${plural(s.ics, 'расписание группы', 'расписания групп', 'расписаний групп')} в формате iCalendar — открываются как расписание прямо на сайте.</p>` : ''}
+    </section>
+    ${cats.length ? `<section class="card"><h3>${icon('i-layers')}Дисциплины по разделам</h3><div class="rows">${cats.map(([name, n]) => `<div class="row"><span>${esc(name)}</span><b>${n}</b><span class="track"><i style="width:${(n / maxCat * 100).toFixed(1)}%"></i></span></div>`).join('')}</div></section>` : ''}
+    <details class="card audit" ${warn ? 'open' : ''}>
+      <summary>${icon('i-shield')}Проверка структуры
+        ${state.issues.length ? `${warn ? `<span class="badge warn">${plural(warn, 'предупреждение', 'предупреждения', 'предупреждений')}</span>` : ''}${info ? `<span class="badge muted">${plural(info, 'замечание', 'замечания', 'замечаний')}</span>` : ''}` : `<span class="badge ok">${icon('i-check')} всё в порядке</span>`}
+        ${icon('i-chev', 'chev')}</summary>
+      <div class="body">
+        <p class="muted sm" style="margin-bottom:6px">Автоматическая сверка с типовой структурой из README: институт → направление → раздел → дисциплина → документы.</p>
+        ${state.issues.length ? state.issues.map(is => `<div class="issue"><div class="t"><span class="lvl ${is.level}"></span>${esc(is.title)}</div><div class="hint">${esc(is.hint)}</div>
+          <div class="items">${is.items.slice(0, 12).map(it => `<button data-${it.type === 'file' ? 'open' : 'go'}="${esc(it.path)}"><span>${esc(it.path)}</span>${it.type === 'file' ? `<small>${fmtSize(it.size)}</small>` : ''}</button>`).join('')}${is.items.length > 12 ? `<span class="muted sm">… и ещё ${is.items.length - 12}</span>` : ''}</div></div>`).join('') : '<p class="muted sm">Замечаний нет.</p>'}
+      </div>
+    </details>
+  </div>
+  ${state.nodes.has('README.md') ? `<h2 class="h">О репозитории <small><a href="${esc(ghBlobUrl('README.md'))}" target="_blank" rel="noopener">README.md ↗</a></small></h2><section class="card md" id="readme">${loaderHtml('Загружаем README…')}</section>` : ''}`;
+}
+
+let readmeCache = null;
+async function fillReadme() {
+  const el = $('#readme'); if (!el) return;
+  try {
+    readmeCache ??= await (await fetch(fileUrl('README.md'))).text();
+    if ($('#readme')) $('#readme').innerHTML = renderMarkdown(readmeCache);
+  } catch { if ($('#readme')) $('#readme').innerHTML = `<p class="muted">Не удалось загрузить README. <a href="${esc(ghBlobUrl('README.md'))}" target="_blank" rel="noopener">Открыть на GitHub ↗</a></p>`; }
+}
+
+/* =========================================================
+   Рендер: папка
+   ========================================================= */
+function renderFolder(n) {
+  const dirs = n.children.filter(c => c.type === 'dir' && !c.hidden);
+  const files = n.children.filter(c => c.type === 'file' && !c.hidden);
+  const sub = [];
+  if (n.role === 'institute' && CONFIG.institutes[n.name]) sub.push(esc(CONFIG.institutes[n.name]));
+  if (n.role === 'specialty') { const m = n.name.match(SPEC_RE); if (m) sub.push(`<span class="badge">${m[0]}</span>`); }
+  sub.push(esc(describe(n).replace(' · есть программа', '')));
+  if (n.role === 'discipline') sub.push(n.hasProgram ? `<span class="badge ok">${icon('i-check')} программа дисциплины</span>` : `<span class="badge muted">программа не загружена</span>`);
+  const title = n.role === 'specialty' ? esc(n.name.replace(SPEC_RE, '').trim()) : esc(n.name);
+
+  const groups = [];
+  if (n.role === 'institute') {
+    const spec = dirs.filter(d => d.role === 'specialty'), rest = dirs.filter(d => d.role !== 'specialty');
+    if (spec.length) groups.push(['Направления подготовки', spec]);
+    if (rest.length) groups.push(['Разделы', rest]);
+  } else if (n.role === 'specialty') {
+    const cat = dirs.filter(d => d.role === 'category'), rest = dirs.filter(d => d.role !== 'category');
+    if (cat.length) groups.push(['Разделы дисциплин', cat]);
+    if (rest.length) groups.push(['Дополнительные материалы', rest]);
+  } else if (dirs.length) groups.push([childrenHeading(dirs), dirs]);
+
+  return `${crumbsHtml(n)}
+  <header class="ph"><div class="ph-icon">${icon(roleIcon(n))}</div><div style="min-width:0"><div class="ph-kicker">${ROLE_LABEL[n.role] || 'Папка'}</div><h1>${title}</h1><div class="ph-sub">${sub.map(x => `<span>${x}</span>`).join('')}</div></div></header>
+  ${groups.map(([h, list]) => `<h2 class="h">${h} <small>${list.length}</small></h2><div class="grid">${list.map(cardHtml).join('')}</div>`).join('')}
+  ${files.length ? `<h2 class="h">Файлы <small>${files.length}</small></h2><div class="files">${files.map(f => rowHtml(f)).join('')}</div>` : ''}
+  ${!dirs.length && !files.length ? emptyHtml('Папка пуста') : ''}`;
+}
+
+/* =========================================================
+   Рендер: поиск
+   ========================================================= */
+function search(q) {
+  const toks = norm(q).split(/\s+/).filter(Boolean);
+  if (!toks.length) return [];
+  const res = [];
+  for (const n of state.list) {
+    let score = 0, ok = true;
+    for (const t of toks) {
+      if (n.lname.includes(t)) score += n.lname.startsWith(t) ? 3 : 2;
+      else if (n.lpath.includes(t)) score += 1;
+      else { ok = false; break; }
+    }
+    if (ok) res.push({ n, score: score + (n.type === 'dir' ? 0.5 : 0) });
+  }
+  return res.sort((a, b) => b.score - a.score || a.n.name.localeCompare(b.n.name, 'ru', { numeric: true })).map(r => r.n);
+}
+function highlighter(q) {
+  const toks = norm(q).split(/\s+/).filter(Boolean).map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/е/g, '[её]'));
+  if (!toks.length) return esc;
+  const re = new RegExp(`(${toks.join('|')})`, 'gi');
+  return s => esc(s).replace(re, '<mark>$1</mark>');
+}
+function renderSearch() {
+  const all = search(state.query);
+  const counts = { all: all.length };
+  for (const n of all) if (n.type === 'file') counts[kindOf(n.ext)] = (counts[kindOf(n.ext)] || 0) + 1;
+  const list = state.group === 'all' ? all : all.filter(n => n.type === 'file' && kindOf(n.ext) === state.group);
+  const hl = highlighter(state.query);
+  const chips = GROUPS.filter(g => counts[g.id]).map(g => `<button class="chip${state.group === g.id ? ' on' : ''}" data-group="${g.id}">${g.label} <small>${counts[g.id]}</small></button>`).join('');
+  const crumb = n => { const parts = []; for (let c = n.parent; c && c.depth; c = c.parent) parts.unshift(c.name); return esc(parts.join(' / ')); };
+  return `<header class="ph" style="margin-top:8px"><div class="ph-icon">${icon('i-search')}</div><div style="min-width:0"><div class="ph-kicker">Поиск</div><h1>${all.length ? plural(all.length, 'результат', 'результата', 'результатов') : 'Ничего не найдено'}</h1><div class="ph-sub">по запросу «${esc(state.query)}»</div></div></header>
+  ${all.length > 1 ? `<div class="pv-row" style="margin:14px 0 4px">${chips}</div>` : ''}
+  <div class="files" style="margin-top:14px">${list.slice(0, 120).map(n => n.type === 'file' ? rowHtml(n, crumb(n), hl)
+    : `<div class="frow" data-go="${esc(n.path)}" role="button" tabindex="0"><span class="ext" style="--c:var(--accent)">${icon(roleIcon(n))}</span><span class="tx"><span class="nm">${hl(n.name)}</span><span class="sb">${ROLE_LABEL[n.role] || 'Папка'}${n.depth > 1 ? ' · ' + crumb(n) : ''}</span></span><span class="size">${esc(describe(n).split(' · ')[0])}</span></div>`).join('')}
+  ${list.length > 120 ? `<p class="muted sm" style="text-align:center;margin-top:8px">Показаны первые 120 результатов — уточните запрос</p>` : ''}
+  ${!list.length ? emptyHtml('Попробуйте изменить запрос или снять фильтр') : ''}</div>`;
+}
+
+/* =========================================================
+   Рендер: основная область
+   ========================================================= */
+function render(node, force = false) {
+  const el = $('#browser');
+  if (state.query) { el.innerHTML = renderSearch(); enrichIcs(el); return; }
+  if (!force && state.current === node && el.querySelector('.crumbs')) { markActive(); return; }
+  state.current = node;
+  el.innerHTML = node.depth === 0 ? renderHome() : renderFolder(node);
+  if (node.depth === 0) fillReadme();
+  markActive();
+  enrichIcs(el);
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+/* Подписи к файлам расписаний (группа, число занятий) — подгружаются лениво */
+const icsSubtitle = m => `${m.group ? `Группа ${m.group} · ` : ''}${plural(m.count, 'занятие', 'занятия', 'занятий')}`;
+function enrichIcs(container) {
+  const rows = [...container.querySelectorAll('.frow[data-open$=".ics"]')].slice(0, 30);
+  rows.forEach(async r => {
+    const n = state.nodes.get(r.dataset.open); if (!n) return;
+    if (n.meta === undefined) {
+      n.meta = null;
+      try {
+        const ev = parseIcs(await fetchText(fileUrl(n.path)));
+        const group = (ev.find(e => /группа:\s*\S+/i.test(e.description))?.description.match(/группа:\s*([^,;\n]+)/i) || [])[1]?.trim();
+        n.meta = { group, count: ev.length };
+        if (group) n.lname += ' ' + norm(group);
+      } catch {}
+    }
+    if (!n.meta || !r.isConnected) return;
+    let sb = r.querySelector('.sb');
+    if (!sb) { sb = document.createElement('span'); sb.className = 'sb'; r.querySelector('.tx').appendChild(sb); }
+    if (!sb.textContent.includes(icsSubtitle(n.meta))) sb.textContent = (sb.textContent ? sb.textContent + ' · ' : '') + icsSubtitle(n.meta);
+  });
+}
+function markActive() {
+  document.querySelectorAll('.frow[data-open]').forEach(r => r.classList.toggle('active', !!state.preview && r.dataset.open === state.preview.path));
+}
+function renderSource() {
+  const s = state.source; if (!s) return;
+  const label = { manifest: 'manifest.json', api: 'GitHub API', cache: 'кэш браузера' }[s.kind] || s.kind;
+  const c = s.commit;
+  $('#src').innerHTML = `<span title="Источник структуры">${icon('i-shield')}</span><span>Данные: <b>${label}</b>${s.stale ? ' (возможно, устарели)' : ''}${c?.date ? ` · обновлено ${esc(fmtDate(c.date))}` : ''}${c?.sha ? ` · <a href="${GH}/commit/${c.sha}" target="_blank" rel="noopener" title="${esc(c.message || '')}"><code>${c.sha.slice(0, 7)}</code></a>` : ''}</span>
+  <button class="btn sm" id="refreshBtn" title="Перечитать структуру из GitHub">${icon('i-refresh')}Обновить</button>`;
+  $('#refreshBtn').onclick = () => init(true);
+}
+function renderError(e) {
+  $('#browser').innerHTML = `<div class="err"><h3>${icon('i-warn')}Не удалось загрузить структуру</h3><p class="muted">${esc(e.message || e)}</p>
+  <div class="pv-row"><button class="btn" id="retryBtn">${icon('i-refresh')}Повторить</button><a class="btn" href="${GH}" target="_blank" rel="noopener">${icon('i-github', 'fill')}Открыть на GitHub</a></div></div>`;
+  $('#retryBtn').onclick = () => init(true);
+}
+
+/* =========================================================
+   Маршрутизация (#/путь/к/папке или файлу)
+   ========================================================= */
+function parseHash() { let h = location.hash.replace(/^#\/?/, ''); try { h = decodeURIComponent(h); } catch {} return h.replace(/\/+$/, ''); }
+function go(path, replace = false) {
+  const h = '#/' + encodePath(path.split('/').filter(Boolean).join('/'));
+  if (h === location.hash || (h === '#/' && !location.hash)) { route(); return; }
+  if (replace) history.replaceState(null, '', h); else location.hash = h;
+}
+function route() {
+  if (!state.root) return;
+  const p = parseHash();
+  let node = state.nodes.get(p);
+  if (!node) { if (p) toast('Путь не найден'); node = state.root; }
+  if (node.hidden && node.type === 'dir') node = state.root;
+  if (state.query) { state.query = ''; $('#q').value = ''; $('#searchBox').classList.remove('has'); }
+  if (node.type === 'file') { render(node.parent); openPreview(node, false); }
+  else { if (state.preview) closePreview(false); render(node); }
+}
+
+/* =========================================================
+   Предпросмотр
+   ========================================================= */
+let pvCtl = null;
+function openPreview(node, push = true) {
+  if (pvCtl) pvCtl.destroy();
+  const ctl = { dead: false, _d: [], onDestroy(f) { this._d.push(f); }, destroy() { this.dead = true; this._d.forEach(f => { try { f(); } catch {} }); } };
+  pvCtl = ctl; state.preview = node;
+  document.body.classList.add('has-preview');
+  const t = typeOf(node.ext);
+  const parts = []; for (let c = node.parent; c && c.depth; c = c.parent) parts.unshift(c.name);
+  $('#preview').innerHTML = `
+    <div class="pv-head">
+      <div class="pv-title"><span class="ext lg" style="--c:${t.color}">${t.label}</span><h2>${esc(node.name)}</h2>
+        <button class="btn icon-btn" id="pvClose" title="Закрыть (Esc)" aria-label="Закрыть">${icon('i-close')}</button></div>
+      <div class="pv-path"><button data-go="${esc(node.parent.path)}" title="Перейти в папку">${icon('i-folder')} ${esc(parts.join(' / ') || 'Корень репозитория')}</button></div>
+      <div class="pv-row">
+        <span class="muted sm">${fmtSize(node.size)}</span>
+        <a class="btn icon-btn sm" href="${esc(openUrl(node.path))}" target="_blank" rel="noopener" title="Открыть в новой вкладке">${icon('i-external')}</a>
+        <a class="btn icon-btn sm" href="${esc(downloadUrl(node.path))}" download="${esc(node.name)}" title="Скачать">${icon('i-download')}</a>
+        <button class="btn icon-btn sm" id="pvCopy" title="Скопировать ссылку">${icon('i-link')}</button>
+        <div class="pv-tools" id="pvTools"></div>
+      </div>
+    </div>
+    <div class="pv-body" id="pvBody"><div class="pv-stage" id="pvStage"></div></div>`;
+  $('#pvClose').onclick = () => closePreview();
+  $('#pvCopy').onclick = async () => { try { await navigator.clipboard.writeText(location.href.split('#')[0] + '#/' + encodePath(node.path)); toast('Ссылка скопирована'); } catch { toast('Не удалось скопировать'); } };
+  ctl.scroller = $('#pvBody');
+  const viewer = { pdf: viewPdf, docx: viewDocx, text: viewText, ics: viewIcs, image: viewImage }[kindOf(node.ext)] || viewFallback;
+  viewer(node, $('#pvStage'), $('#pvTools'), ctl).catch(e => { if (!ctl.dead) $('#pvStage').innerHTML = fallbackHtml(node, 'Ошибка предпросмотра: ' + (e.message || e)); });
+  if (push) go(node.path);
+  markActive();
+}
+function closePreview(push = true) {
+  if (pvCtl) pvCtl.destroy(); pvCtl = null;
+  const n = state.preview; state.preview = null;
+  document.body.classList.remove('has-preview');
+  $('#preview').innerHTML = '';
+  markActive();
+  if (push && n) go(n.parent.path);
+}
+function fallbackHtml(node, msg) {
+  const t = typeOf(node.ext);
+  return `<div class="fallback"><span class="ext" style="--c:${t.color}">${t.label}</span><div>${esc(msg)}</div>
+    <div class="btns"><a class="btn" href="${esc(downloadUrl(node.path))}" download="${esc(node.name)}">${icon('i-download')}Скачать (${fmtSize(node.size)})</a><a class="btn" href="${esc(ghBlobUrl(node.path))}" target="_blank" rel="noopener">${icon('i-github', 'fill')}На GitHub</a></div></div>`;
+}
+async function viewFallback(node, stage) { stage.innerHTML = fallbackHtml(node, 'Для этого формата предпросмотр недоступен.'); }
+
+async function fetchText(url) { const r = await fetch(url); if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.text(); }
+
+/* --- изображения --- */
+async function viewImage(node, stage) {
+  stage.innerHTML = `<figure class="imgwrap"><img src="${esc(fileUrl(node.path))}" alt="${esc(node.name)}" loading="lazy"></figure>`;
+  const fig = stage.firstElementChild;
+  fig.onclick = () => fig.classList.toggle('zoomed');
+  fig.querySelector('img').onerror = () => { stage.innerHTML = fallbackHtml(node, 'Не удалось загрузить изображение.'); };
+}
+
+/* --- текст и Markdown --- */
+async function viewText(node, stage, tools, ctl) {
+  stage.innerHTML = loaderHtml('Загрузка…');
+  const txt = await fetchText(fileUrl(node.path));
+  if (ctl.dead) return;
+  const isMd = node.ext === 'md' || /^#{1,6}\s\S/m.test(txt);
+  let mode = isMd ? 'md' : 'raw';
+  const draw = () => { stage.innerHTML = mode === 'md' ? `<article class="md">${renderMarkdown(txt)}</article>` : `<pre class="txt">${esc(txt)}</pre>`; };
+  if (isMd) {
+    tools.innerHTML = `<div class="seg"><button data-m="md" class="on">Текст</button><button data-m="raw">Исходник</button></div>`;
+    tools.onclick = e => { const b = e.target.closest('[data-m]'); if (!b) return; mode = b.dataset.m; tools.querySelectorAll('[data-m]').forEach(x => x.classList.toggle('on', x === b)); draw(); };
+  }
+  draw();
+}
+function renderMarkdown(src) {
+  const lines = src.replace(/\r\n?/g, '\n').split('\n');
+  let out = '', i = 0, para = [], list = null;
+  const flushP = () => { if (para.length) { out += `<p>${inline(para.join(' '))}</p>`; para = []; } };
+  const flushL = () => { if (list) { out += `<${list.type}>${list.items.map(x => `<li>${inline(x)}</li>`).join('')}</${list.type}>`; list = null; } };
+  while (i < lines.length) {
+    const l = lines[i]; let m;
+    if (/^\s*```/.test(l)) { flushP(); flushL(); const buf = []; i++; while (i < lines.length && !/^\s*```/.test(lines[i])) buf.push(lines[i++]); i++; out += `<pre><code>${esc(buf.join('\n'))}</code></pre>`; continue; }
+    if ((m = /^(#{1,6})\s+(.*?)\s*#*\s*$/.exec(l))) { flushP(); flushL(); out += `<h${m[1].length}>${inline(m[2])}</h${m[1].length}>`; i++; continue; }
+    if (/^\s*([-*_])(\s*\1){2,}\s*$/.test(l)) { flushP(); flushL(); out += '<hr>'; i++; continue; }
+    if ((m = /^\s*[-*+]\s+(.*)$/.exec(l))) { flushP(); if (!list || list.type !== 'ul') { flushL(); list = { type: 'ul', items: [] }; } list.items.push(m[1]); i++; continue; }
+    if ((m = /^\s*\d+[.)]\s+(.*)$/.exec(l))) { flushP(); if (!list || list.type !== 'ol') { flushL(); list = { type: 'ol', items: [] }; } list.items.push(m[1]); i++; continue; }
+    if ((m = /^\s*>\s?(.*)$/.exec(l))) { flushP(); flushL(); const buf = [m[1]]; i++; while (i < lines.length && /^\s*>/.test(lines[i])) buf.push(lines[i++].replace(/^\s*>\s?/, '')); out += `<blockquote>${inline(buf.join(' '))}</blockquote>`; continue; }
+    if (/^\s*\|.*\|\s*$/.test(l) && /^\s*\|?\s*:?-{2,}/.test(lines[i + 1] || '')) {
+      const rows = []; while (i < lines.length && /^\s*\|.*\|\s*$/.test(lines[i])) rows.push(lines[i++]);
+      const cells = r => r.trim().replace(/^\||\|$/g, '').split('|').map(c => inline(c.trim()));
+      out += `<table><thead><tr>${cells(rows[0]).map(c => `<th>${c}</th>`).join('')}</tr></thead><tbody>${rows.slice(2).map(r => `<tr>${cells(r).map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table>`; continue;
+    }
+    if (!l.trim()) { flushP(); flushL(); i++; continue; }
+    if (list && /^\s{2,}\S/.test(l)) { list.items[list.items.length - 1] += ' ' + l.trim(); i++; continue; }
+    flushL(); para.push(l.trim()); i++;
+  }
+  flushP(); flushL();
+  return out;
+}
+function inline(s) {
+  s = esc(s);
+  s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
+  s = s.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, '<img alt="$1" src="$2" loading="lazy">');
+  s = s.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+  s = s.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>').replace(/(^|[^\w*])\*([^*\n]+)\*(?![\w*])/g, '$1<i>$2</i>').replace(/(^|[^\w_])_([^_\n]+)_(?![\w_])/g, '$1<i>$2</i>');
+  s = s.replace(/(^|[\s(])(https?:\/\/[^\s<)]+)/g, '$1<a href="$2" target="_blank" rel="noopener">$2</a>');
+  return s;
+}
+
+/* --- расписание iCalendar --- */
+function parseIcs(text) {
+  const lines = text.replace(/\r\n?/g, '\n').replace(/\n[ \t]/g, '').split('\n');
+  const events = []; let cur = null;
+  for (const line of lines) {
+    if (line === 'BEGIN:VEVENT') { cur = {}; continue; }
+    if (line === 'END:VEVENT') { if (cur) events.push(cur); cur = null; continue; }
+    if (!cur) continue;
+    const i = line.indexOf(':'); if (i < 0) continue;
+    cur[line.slice(0, i).split(';')[0]] = line.slice(i + 1).replace(/\\n/g, '\n').replace(/\\([,;\\])/g, '$1');
+  }
+  const date = v => { const m = /^(\d{4})(\d{2})(\d{2})(?:T(\d{2})(\d{2})(\d{2})?(Z)?)?$/.exec((v || '').trim()); if (!m) return null; const [, Y, Mo, D, h = '00', mi = '00', s = '00', z] = m; return z ? new Date(Date.UTC(+Y, Mo - 1, +D, +h, +mi, +s)) : new Date(`${Y}-${Mo}-${D}T${h}:${mi}:${s}+03:00`); };
+  return events.map(e => ({ start: date(e.DTSTART), end: date(e.DTEND), summary: e.SUMMARY || '', location: e.LOCATION || '', description: e.DESCRIPTION || '' })).filter(e => e.start && !isNaN(e.start));
+}
+function lessonKind(summary) {
+  // \b не работает с кириллицей — проверяем префикс явно
+  const s = summary.toLowerCase().trim();
+  if (/^лек[\s.]|лекц/.test(s)) return 'lecture';
+  if (/^лаб[\s.]|лаборат/.test(s)) return 'lab';
+  if (/^пр[\s.]|практ/.test(s)) return 'practice';
+  if (/^сем[\s.]|семинар/.test(s)) return 'seminar';
+  if (/экзам/.test(s)) return 'exam';
+  if (/зач[её]т/.test(s)) return 'credit';
+  if (/конс/.test(s)) return 'consult';
+  return null;
+}
+async function viewIcs(node, stage, tools, ctl) {
+  stage.innerHTML = loaderHtml('Загрузка расписания…');
+  const txt = await fetchText(fileUrl(node.path));
+  if (ctl.dead) return;
+  const ev = parseIcs(txt).sort((a, b) => a.start - b.start);
+  if (!ev.length) { stage.innerHTML = `<pre class="txt">${esc(txt)}</pre>`; return; }
+  const tz = CONFIG.timeZone;
+  const keyF = new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' });
+  const dayF = new Intl.DateTimeFormat('ru-RU', { timeZone: tz, weekday: 'long', day: 'numeric', month: 'long' });
+  const timeF = new Intl.DateTimeFormat('ru-RU', { timeZone: tz, hour: '2-digit', minute: '2-digit' });
+  const todayKey = keyF.format(new Date());
+  const days = new Map();
+  for (const e of ev) { const k = keyF.format(e.start); (days.get(k) || days.set(k, []).get(k)).push(e); }
+  const group = (ev.find(e => /группа:\s*\S+/i.test(e.description))?.description.match(/группа:\s*([^,;\n]+)/i) || [])[1]?.trim();
+  const range = `${ev[0].start.toLocaleDateString('ru-RU', { timeZone: tz, day: 'numeric', month: 'short' })} — ${ev[ev.length - 1].start.toLocaleDateString('ru-RU', { timeZone: tz, day: 'numeric', month: 'short' })}`;
+  let firstFuture = null;
+  const html = [...days.entries()].map(([k, list]) => {
+    const isToday = k === todayKey; if (!firstFuture && k >= todayKey) firstFuture = k;
+    return `<section class="day${isToday ? ' today' : ''}" data-day="${k}"><h4>${icon(isToday ? 'i-today' : 'i-cal')}${dayF.format(list[0].start)}${isToday ? ' · сегодня' : ''}</h4>
+    ${list.map(e => {
+      const kind = lessonKind(e.summary); const k2 = kind ? KINDS[kind] : null;
+      const sum = kind ? e.summary.replace(/^(лек|пр|лаб|сем)\.?\s+/i, '') : e.summary;
+      const teacher = (e.description.match(/Преподаватель\s+([^,;\n]+)/i) || [])[1];
+      const other = e.description.replace(/Преподаватель\s+[^,;\n]+,?\s*/i, '').replace(/группа:\s*[^,;\n]+,?\s*/i, '').trim();
+      return `<div class="les"><time>${timeF.format(e.start)}${e.end ? `<small>${timeF.format(e.end)}</small>` : ''}</time><div><div class="sum">${k2 ? `<span class="kind" style="--kc:${k2[1]}">${k2[0]}</span>` : ''}${esc(sum)}</div>
+        <div class="meta">${e.location ? `<span>${icon('i-pin')}${esc(e.location)}</span>` : ''}${teacher ? `<span>${icon('i-user')}${esc(teacher)}</span>` : ''}${other ? `<span>${esc(other)}</span>` : ''}</div></div></div>`;
+    }).join('')}</section>`;
+  }).join('');
+  stage.innerHTML = `<div class="sched"><div class="top-line">${group ? `<span><b>Группа ${esc(group)}</b></span>` : ''}<span>${plural(ev.length, 'занятие', 'занятия', 'занятий')}</span><span>${esc(range)}</span><span>${days.size} уч. дн.</span></div>${html}</div>`;
+  tools.innerHTML = `<button class="btn sm" id="icsToday" ${firstFuture ? '' : 'disabled'}>${icon('i-today')}Сегодня</button>`;
+  $('#icsToday').onclick = () => { const d = stage.querySelector(`[data-day="${firstFuture}"]`); if (d) ctl.scroller.scrollTo({ top: d.offsetTop - 8, behavior: 'smooth' }); };
+}
+
+/* --- DOCX (mammoth) --- */
+async function viewDocx(node, stage, tools, ctl) {
+  stage.innerHTML = loaderHtml('Загрузка документа…');
+  await loadScript(CDN.mammoth);
+  const r = await fetch(fileUrl(node.path)); if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  const buf = await r.arrayBuffer(); if (ctl.dead) return;
+  const res = await window.mammoth.convertToHtml({ arrayBuffer: buf });
+  if (ctl.dead) return;
+  stage.innerHTML = `<article class="md doc">${res.value || '<p class="muted">Документ пуст</p>'}</article>`;
+  stage.querySelectorAll('a[href]').forEach(a => { a.target = '_blank'; a.rel = 'noopener'; });
+}
+
+/* --- PDF (pdf.js, постраничный ленивый рендер) --- */
+let pdfjsPromise = null;
+const loadPdfJs = () => pdfjsPromise ??= import(CDN.pdf).then(lib => { lib.GlobalWorkerOptions.workerSrc = CDN.pdfWorker; return lib; });
+async function viewPdf(node, stage, tools, ctl) {
+  stage.innerHTML = loaderHtml('Загрузка PDF…', fmtSize(node.size));
+  const lib = await loadPdfJs();
+  const task = lib.getDocument({ url: fileUrl(node.path), cMapUrl: CDN.cmaps, cMapPacked: true, standardFontDataUrl: CDN.fonts });
+  ctl.onDestroy(() => task.destroy().catch(() => {}));
+  task.onProgress = p => { const el = stage.querySelector('.loader-sub'); if (el) el.textContent = p.total ? `${Math.round(p.loaded / p.total * 100)} %` : fmtSize(p.loaded); };
+  const pdf = await task.promise; if (ctl.dead) return;
+  const n = pdf.numPages;
+  const first = await pdf.getPage(1); if (ctl.dead) return;
+  const v1 = first.getViewport({ scale: 1 });
+  let zoom = 1;
+  const pagesEl = document.createElement('div'); pagesEl.className = 'pdf-pages';
+  stage.innerHTML = ''; stage.appendChild(pagesEl);
+  const pageEls = [];
+  for (let i = 1; i <= n; i++) { const d = document.createElement('div'); d.className = 'pdf-page'; d.dataset.page = i; d.innerHTML = `<span class="pdf-num">${i}</span>`; pagesEl.appendChild(d); pageEls.push(d); }
+  const rendered = new Map();
+  const baseScale = () => Math.max(120, pagesEl.clientWidth) / v1.width;
+  const layout = () => { const w = Math.floor(v1.width * baseScale() * zoom), h = Math.floor(v1.height * baseScale() * zoom); for (const d of pageEls) { d.style.width = w + 'px'; d.style.height = h + 'px'; } };
+  async function renderPage(i) {
+    if (rendered.has(i)) return;
+    const slot = {}; rendered.set(i, slot);
+    const page = await pdf.getPage(i).catch(() => null);
+    if (!page || ctl.dead || rendered.get(i) !== slot) return;
+    const vp = page.getViewport({ scale: baseScale() * zoom });
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const c = document.createElement('canvas');
+    c.width = Math.floor(vp.width * dpr); c.height = Math.floor(vp.height * dpr);
+    c.style.width = Math.floor(vp.width) + 'px'; c.style.height = Math.floor(vp.height) + 'px';
+    const d = pageEls[i - 1]; d.style.width = Math.floor(vp.width) + 'px'; d.style.height = Math.floor(vp.height) + 'px';
+    slot.task = page.render({ canvasContext: c.getContext('2d'), viewport: vp, transform: dpr !== 1 ? [dpr, 0, 0, dpr, 0, 0] : null });
+    try { await slot.task.promise; } catch { if (rendered.get(i) === slot) rendered.delete(i); return; }
+    if (ctl.dead || rendered.get(i) !== slot) return;
+    d.replaceChildren(c); slot.canvas = c;
+  }
+  function release(i) {
+    const slot = rendered.get(i); if (!slot) return;
+    try { slot.task?.cancel(); } catch {}
+    if (slot.canvas) { slot.canvas.width = 0; slot.canvas.height = 0; }
+    rendered.delete(i); pageEls[i - 1].innerHTML = `<span class="pdf-num">${i}</span>`;
+  }
+  let io;
+  const observe = () => { io?.disconnect(); io = new IntersectionObserver(es => { for (const e of es) { const i = +e.target.dataset.page; if (e.isIntersecting) renderPage(i); else release(i); } }, { root: ctl.scroller, rootMargin: '900px 0px' }); pageEls.forEach(d => io.observe(d)); };
+  const rerender = () => { for (const i of [...rendered.keys()]) release(i); layout(); observe(); };
+  layout(); observe();
+  ctl.onDestroy(() => { io?.disconnect(); for (const i of [...rendered.keys()]) release(i); });
+
+  tools.innerHTML = `<span class="pdf-count"><b id="pdfCur">1</b> / ${n}</span>
+    <button class="btn icon-btn sm" data-z="-" title="Уменьшить">${icon('i-zout')}</button>
+    <button class="btn icon-btn sm" data-z="0" title="По ширине">${icon('i-fit')}</button>
+    <button class="btn icon-btn sm" data-z="+" title="Увеличить">${icon('i-zin')}</button>`;
+  tools.onclick = e => { const b = e.target.closest('[data-z]'); if (!b) return; const z = b.dataset.z; zoom = z === '0' ? 1 : z === '+' ? Math.min(zoom * 1.25, 4) : Math.max(zoom / 1.25, 0.5); rerender(); };
+  const onScroll = throttle(() => { const top = ctl.scroller.scrollTop + ctl.scroller.clientHeight * 0.4; let cur = 1; for (const d of pageEls) { if (d.offsetTop <= top) cur = +d.dataset.page; else break; } const el = $('#pdfCur'); if (el) el.textContent = cur; }, 120);
+  ctl.scroller.addEventListener('scroll', onScroll, { passive: true });
+  ctl.onDestroy(() => ctl.scroller.removeEventListener('scroll', onScroll));
+  let lastW = pagesEl.clientWidth;
+  const ro = new ResizeObserver(debounce(() => { if (ctl.dead) return; if (Math.abs(pagesEl.clientWidth - lastW) > 2) { lastW = pagesEl.clientWidth; rerender(); } }, 200));
+  ro.observe(pagesEl); ctl.onDestroy(() => ro.disconnect());
+}
+
+/* =========================================================
+   Тема, события, запуск
+   ========================================================= */
+function applyTheme(t) {
+  document.documentElement.dataset.theme = t;
+  $('#themeIcon').setAttribute('href', t === 'dark' ? '#i-sun' : '#i-moon');
+  $('meta[name=theme-color]').content = t === 'dark' ? '#272b33' : '#e9edf3';
+}
+function bind() {
+  applyTheme(ls.get('ksudata:theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+  $('#themeBtn').onclick = () => { const t = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'; applyTheme(t); ls.set('ksudata:theme', t); };
+  $('#ghLink').href = GH;
+
+  document.addEventListener('click', e => {
+    if (e.target.closest('[data-stop]')) { e.stopPropagation(); return; }
+    const g = e.target.closest('[data-go]'); if (g) { e.preventDefault(); go(g.dataset.go); return; }
+    const o = e.target.closest('[data-open]'); if (o) { const n = state.nodes.get(o.dataset.open); if (n && n !== state.preview) openPreview(n); return; }
+    const c = e.target.closest('[data-group]'); if (c) { state.group = c.dataset.group; render(state.current, true); }
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && e.target.matches('.frow')) { e.target.click(); return; }
+    if (e.key === 'Escape') { if (document.activeElement === $('#q') && state.query) { setQuery(''); return; } if (state.preview) { closePreview(); return; } }
+    if (e.key === '/' && !e.target.matches('input,textarea') && !e.ctrlKey && !e.metaKey) { e.preventDefault(); $('#q').focus(); }
+  });
+  const q = $('#q');
+  const setQuery = v => { q.value = v; state.query = v.trim(); state.group = 'all'; $('#searchBox').classList.toggle('has', !!v); if (state.query) { $('#browser').innerHTML = renderSearch(); enrichIcs($('#browser')); window.scrollTo({ top: 0 }); } else render(state.current, true); };
+  q.addEventListener('input', debounce(() => setQuery(q.value), 120));
+  q.addEventListener('keydown', e => { if (e.key === 'Enter') { const first = $('#browser .frow'); if (first) { first.click(); q.blur(); } } });
+  $('#qClear').onclick = () => { setQuery(''); q.focus(); };
+  window.addEventListener('hashchange', route);
+}
+
+async function init(force = false) {
+  if (!state.root) $('#browser').innerHTML = loaderHtml('Анализируем репозиторий…');
+  try {
+    const data = await loadData(force);
+    const { root, nodes } = buildTree(data.entries);
+    state.root = root; state.nodes = nodes;
+    state.list = [...nodes.values()].filter(n => n.depth && !n.hidden);
+    state.files = state.list.filter(n => n.type === 'file');
+    state.stats = computeStats(root);
+    state.issues = audit(root, state.files);
+    state.source = { kind: data.kind, commit: data.commit, stale: !!data.stale };
+    state.current = null;
+    await detectBase();
+    renderSource();
+    route();
+    if (force) toast(data.kind === 'api' ? 'Структура обновлена' : 'Показаны данные из кэша');
+  } catch (e) { console.error(e); if (state.root) toast(e.message || 'Ошибка обновления'); else renderError(e); }
+}
+
+bind();
+init();
+})();
+</script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"1954b47c125f43f8b4338b3c4f804e4f","spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>
